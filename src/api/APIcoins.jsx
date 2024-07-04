@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 
 import "./APIcoin.css";
-import APIMath from "./APImath";
+import APImath from "./APImath";
 
 export default function ApiCodes() {
   const coinsNameURL = import.meta.env.VITE_API_COINS_NAME;
@@ -58,7 +58,7 @@ export default function ApiCodes() {
           {coinName}
         </select>
       </div>
-      <APIMath code={codeSelectedCoin} />
+      <APImath code={codeSelectedCoin} />
     </>
   );
 }
