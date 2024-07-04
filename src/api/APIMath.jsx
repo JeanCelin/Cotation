@@ -14,10 +14,16 @@ export default function ApiPrice(props) {
 
   const [updatingCoin1, setUpdatingCoin1] = useState(false);
   const [updatingCoin2, setUpdatingCoin2] = useState(false);
+  const [completeURL, setCompleteURL] = useState("");
 
-  const code = props.code;
-  const url = import.meta.env.VITE_API_KEY;
-  const completeURL = `${url}${code}`;
+  useEffect(() => {
+    const url = import.meta.env.VITE_API_KEY;
+    const code = props.code;
+    if (code) {
+      const finalURL = `${url}/${code}`;
+      setCompleteURL(finalURL);
+    }
+  }, [props.code]);
 
   const calc1 = (coin1, price) => coin1 * price;
   const calc2 = (coin2, price) => coin2 / price;
@@ -33,7 +39,7 @@ export default function ApiPrice(props) {
   };
 
   useEffect(() => {
-    if (updatingCoin1 & !isNaN(coin1Value)) {
+    if (updatingCoin1 && !isNaN(coin1Value)) {
       const result = calc1(coin1Value, price).toFixed(2);
       setCoin2Value(result);
       setUpdatingCoin1(false);
@@ -41,7 +47,7 @@ export default function ApiPrice(props) {
   }, [coin1Value, price, updatingCoin1]);
 
   useEffect(() => {
-    if (updatingCoin2 & !isNaN(coin2Value)) {
+    if (updatingCoin2 && !isNaN(coin2Value)) {
       const result = calc2(coin2Value, price).toFixed(2);
       setCoin1Value(result);
       setUpdatingCoin2(false);
@@ -51,11 +57,34 @@ export default function ApiPrice(props) {
   useEffect(() => {
     const fetchData = async () => {
       try {
+        if (!completeURL) {
+          return;
+        }
+
         const response = await axios.get(completeURL);
+        if (!response.data) {
+          throw new Error("Empty response data");
+        }
+
         const newCode = Object.keys(response.data)[0];
         const data = response.data[newCode];
-        const coins1 = data.name.split("/")[0];
-        const coins2 = data.name.split("/")[1];
+
+        if (!data || !data.name || typeof data.name !== "string") {
+          throw new Error(
+            "Invalid data format: name property not found or not a string"
+          );
+        }
+
+        const coins = data.name.split("/");
+        if (coins.length !== 2) {
+          throw new Error(
+            "Invalid data format: name does not contain expected format"
+          );
+        }
+
+        const coins1 = coins[0];
+        const coins2 = coins[1];
+
         const fetchedPrice = Number(data.bid).toFixed(2);
         setPrice(fetchedPrice);
         setCodein(data.codein);
@@ -68,6 +97,7 @@ export default function ApiPrice(props) {
         setLoading(false);
       }
     };
+
     fetchData();
   }, [completeURL]);
 
@@ -89,7 +119,8 @@ export default function ApiPrice(props) {
             name="coin1"
             type="number"
             onChange={handleCoin1}
-            value={coin1Value}></input>
+            value={coin1Value}
+          />
         </div>
         <div>
           <label htmlFor="coin2">{coin2}</label>
@@ -97,7 +128,8 @@ export default function ApiPrice(props) {
             name="coin2"
             type="number"
             onChange={handleCoin2}
-            value={coin2Value}></input>
+            value={coin2Value}
+          />
         </div>
       </div>
     </div>

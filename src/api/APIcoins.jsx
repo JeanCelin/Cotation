@@ -7,7 +7,9 @@ export default function ApiCodes() {
   const coinsNameURL = import.meta.env.VITE_API_COINS_NAME;
   const [data, setData] = useState({});
   const [coinName, setCoinName] = useState([]);
-  const [selectedCoin, setSelectedCoin] = useState("");
+  const [selectedCoin, setSelectedCoin] = useState(
+    "Dólar Americano/Real Brasileiro"
+  );
   const [codeSelectedCoin, setCodeSelectedCoin] = useState("USD-BRL");
 
   useEffect(() => {
@@ -28,7 +30,7 @@ export default function ApiCodes() {
         console.error("Error fetching the codes:", error);
       }
     };
-    fetchCodes(); // OBSERVAR NECESSIDADE DE MANTER NO CÓDIGO
+    fetchCodes();
   }, [coinsNameURL]);
 
   useEffect(() => {
@@ -43,15 +45,15 @@ export default function ApiCodes() {
 
   const findKeyByValue = (value) => {
     const key = Object.keys(data).find((key) => data[key] === value);
-    setCodeSelectedCoin(key || "Não encontrado");
+    setCodeSelectedCoin(key);
   };
   return (
     <>
-      <h3>Moeda selecionada: {selectedCoin}</h3>
+      <h3>Selected currency: {selectedCoin}</h3>
       <div className="listCoins">
         <select onChange={handleSelectedCoin} value={selectedCoin}>
           <option disabled hidden value="">
-            Selecione uma moeda
+            Select a currency
           </option>
           {coinName}
         </select>
