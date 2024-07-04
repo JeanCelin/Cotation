@@ -1,4 +1,4 @@
-import APIcoins from "../../api/APIcoins.jsx";
+import APIcoins from "./api/APIcoins";
 
 import "./App.css";
 import React from "react";
