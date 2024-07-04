@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 
+import "./APIcoin.css";
 import APIMath from "./APImath";
 
 export default function ApiCodes() {
@@ -49,7 +50,6 @@ export default function ApiCodes() {
   };
   return (
     <>
-      <h3>Selected currency: {selectedCoin}</h3>
       <div className="listCoins">
         <select onChange={handleSelectedCoin} value={selectedCoin}>
           <option disabled hidden value="">

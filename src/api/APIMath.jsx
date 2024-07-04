@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 
+import "./APImath.css";
+
 export default function ApiPrice(props) {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -20,7 +22,7 @@ export default function ApiPrice(props) {
     const url = import.meta.env.VITE_API_KEY;
     const code = props.code;
     if (code) {
-      const finalURL = `${url}/${code}`;
+      const finalURL = `${url}${code}`;
       setCompleteURL(finalURL);
     }
   }, [props.code]);
@@ -111,9 +113,9 @@ export default function ApiPrice(props) {
 
   return (
     <div className="container">
-      <div>Price: {`${price} ${codein}`}</div>
-      <div>
-        <div>
+      <div className="price">Price: {`${price} ${codein}`}</div>
+      <div className="convertionContainer">
+        <div className="inputContainer">
           <label htmlFor="coin1">{coin1}</label>
           <input
             name="coin1"
@@ -122,7 +124,7 @@ export default function ApiPrice(props) {
             value={coin1Value}
           />
         </div>
-        <div>
+        <div className="inputContainer">
           <label htmlFor="coin2">{coin2}</label>
           <input
             name="coin2"
