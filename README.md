@@ -33,7 +33,7 @@ Para executar este projeto localmente, siga os passos abaixo:
 
    ```bash
    git clone https://github.com/JeanCelin/Cotation
-   cd aplicativo-conversor-de-moedas
+   cd cotation
    ```
 
 2. Instale as dependências:
@@ -45,10 +45,10 @@ Para executar este projeto localmente, siga os passos abaixo:
 3. Inicie o servidor de desenvolvimento:
 
    ```bash
-   npm start
+   npm run dev
    ```
 
-4. Abra [http://localhost:3000](http://localhost:3000) no navegador para visualizar o aplicativo.
+4. Abra o link no terminal com Ctrl + Click Esquerdo ou copie e cole no navegador para visualizar. Exemplo: (http://localhost:5173)
 
 ## Uso
 
