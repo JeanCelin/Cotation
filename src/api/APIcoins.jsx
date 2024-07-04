@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 
-import "./APIcoin.css";
+import "./APIcoins.css";
 import APImath from "./APImath";
 
 export default function ApiCodes() {
