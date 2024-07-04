@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 
-import APIMath from "./APIMath";
+import APIMath from "./APImath";
 
 export default function ApiCodes() {
   const coinsNameURL = import.meta.env.VITE_API_COINS_NAME;
   const [data, setData] = useState({});
   const [coinName, setCoinName] = useState([]);
   const [selectedCoin, setSelectedCoin] = useState("");
-  const [codeSelectedCoin, setCodeSelectedCoin] = useState("");
+  const [codeSelectedCoin, setCodeSelectedCoin] = useState("USD-BRL");
 
   useEffect(() => {
     const fetchCodes = async () => {

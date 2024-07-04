@@ -1,4 +1,3 @@
-import ApiPrice from "../../api/APIMath.jsx";
 import APIcoins from "../../api/APIcoins.jsx";
 
 import "./App.css";
