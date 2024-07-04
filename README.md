@@ -1,5 +1,7 @@
 # Aplicativo Conversor de Moedas
 
+[![NPM](https://img.shields.io/npm/l/react)](https://github.com/JeanCelin/Cotation/blob/main/LICENSE)
+
 Este projeto é um aplicativo simples de conversão de moedas construído utilizando React. Ele permite aos usuários selecionar um par de moedas e realizar conversões entre elas utilizando taxas de câmbio em tempo real obtidas de uma API externa.
 
 ## Sumário
@@ -74,4 +76,4 @@ Contribuições são bem-vindas! Por favor, faça um fork do repositório e envi
 
 ## Licença
 
-Este projeto está licenciado sob a Licença MIT - veja o arquivo [LICENSE](LICENSE) para mais detalhes.
+Este projeto está licenciado sob a Licença MIT - veja o arquivo [LICENSE](https://github.com/JeanCelin/Cotation/blob/main/LICENSE) para mais detalhes.
