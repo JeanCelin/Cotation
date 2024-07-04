@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 
 import "./APIcoins.css";
-import APImath from "./APImath";
+import APImath from "./APImath.jsx";
 
 export default function ApiCodes() {
   const coinsNameURL = import.meta.env.VITE_API_COINS_NAME;
