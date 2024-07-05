@@ -1,18 +1,39 @@
-.listCoins {
+.containerNames {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
   align-items: center;
 }
-.listCoins select {
-  border-radius: 5px;
-  height: 40px;
-  max-width: 600px;
+.coinName {
+  width: 100%;
+  max-width: 300px;
   text-align: center;
-  font-size: 16px;
   cursor: pointer;
 }
-@media (max-width: 415px) {
-  .listCoins select {
-    width: 200px;
-    height: 20px;
-    font-size: 14px;
-  }
+.listContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  max-width: 300px;
+
+  height: 300px;
+  overflow-y: auto;
+}
+.list {
+  padding: 0px;
+  align-items: center;
+  max-width: 300px;
+  height: 100%;
+  width: 100%;
+  list-style-type: none;
+  background-color: #424242;
+  border: 1px solid #424242;
+}
+.list li {
+  cursor: pointer;
+  text-align: center;
+  padding-bottom: 3px;
+}
+.list li:hover {
+  background-color: #242424;
 }

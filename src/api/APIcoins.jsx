@@ -52,19 +52,22 @@ export default function ApiCodes() {
 
   return (
     <>
-      <div className="listCoins">
+      <div className="containerNames">
         <input
+          className="coinName"
           value={selectedCoin}
           onClick={() => {
             setShowList(!showList);
           }}></input>
         {showList && (
-          <ul>
-            <li disabled hidden>
-              Select a currency
-            </li>
-            {coinName}
-          </ul>
+          <div className="listContainer">
+            <ul className="list">
+              <li disabled hidden>
+                Select a currency
+              </li>
+              {coinName}
+            </ul>
+          </div>
         )}
       </div>
       <APImath code={codeSelectedCoin} />

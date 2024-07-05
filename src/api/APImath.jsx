@@ -112,7 +112,7 @@ export default function ApiPrice(props) {
   }
 
   return (
-    <div className="container">
+    <div className="Mathcontainer">
       <div className="price">Price: {`${price} ${codein}`}</div>
       <div className="convertionContainer">
         <div className="inputContainer">
