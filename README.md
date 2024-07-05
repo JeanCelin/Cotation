@@ -41,14 +41,21 @@ Para executar este projeto localmente, siga os passos abaixo:
    ```bash
    npm install
    ```
+3. Configuração do Ambiente:
 
-3. Inicie o servidor de desenvolvimento:
+   Este projeto utiliza variáveis de ambiente para configurar links de APIs públicas. É necessário criar um arquivo '.env' e adicionar as chaves:
+   ```plaintext
+   VITE_API_KEY=https://economia.awesomeapi.com.br/json/last/
+   VITE_API_COINS_NAME=https://economia.awesomeapi.com.br/json/available
+   ```
+
+4. Inicie o servidor de desenvolvimento:
 
    ```bash
    npm run dev
    ```
 
-4. Abra o link no terminal com Ctrl + Click Esquerdo ou copie e cole no navegador para visualizar. Exemplo: (http://localhost:5173)
+5. Abra o link no terminal com Ctrl + Click Esquerdo ou copie e cole no navegador para visualizar. Exemplo: (http://localhost:5173)
 
 ## Uso
 
@@ -69,6 +76,15 @@ A estrutura do projeto está organizada da seguinte forma:
 - **APIcoins.jsx**: Componente que gerencia a seleção de moedas e interações com APIs.
 - **APIMath.jsx**: Componente responsável por realizar as conversões de moeda e exibir os resultados.
 - **Arquivos CSS**: Folhas de estilo para layout e design.
+  
+## Tecnologias
+- HTML
+- CSS
+- JavaScript
+- React
+- Vite
+- Axios
+
 
 ## Contribuições
 
@@ -77,3 +93,6 @@ Contribuições são bem-vindas! Por favor, faça um fork do repositório e envi
 ## Licença
 
 Este projeto está licenciado sob a Licença MIT - veja o arquivo [LICENSE](https://github.com/JeanCelin/Cotation/blob/main/LICENSE) para mais detalhes.
+
+# Autor
+Jean Aloquio Celin
