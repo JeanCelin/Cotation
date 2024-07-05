@@ -13,6 +13,7 @@ export default function ApiCodes() {
   );
   const [codeSelectedCoin, setCodeSelectedCoin] = useState("USD-BRL");
   const [showList, setShowList] = useState(false);
+  const [userCoinName, setUserCoinName] = useState(selectedCoin);
 
   useEffect(() => {
     const fetchCodes = async () => {
@@ -39,10 +40,17 @@ export default function ApiCodes() {
       findKeyByValue(selectedCoin);
     }
   }, [selectedCoin]);
+  useEffect(() => {
+    setUserCoinName(selectedCoin);
+  }, [selectedCoin]);
 
   const handleSelectedCoin = (coin) => {
     setSelectedCoin(coin);
+    setUserCoinName(selectedCoin);
     setShowList(false);
+  };
+  const handleCoinName = (e) => {
+    setUserCoinName(e.target.value);
   };
 
   const findKeyByValue = (value) => {
@@ -55,7 +63,8 @@ export default function ApiCodes() {
       <div className="containerNames">
         <input
           className="coinName"
-          value={selectedCoin}
+          value={userCoinName}
+          onChange={handleCoinName}
           onClick={() => {
             setShowList(!showList);
           }}></input>
