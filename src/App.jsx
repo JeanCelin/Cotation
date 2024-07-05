@@ -1,12 +1,18 @@
-import APIcoins from "./api/APIcoins.jsx";
+import React from "react";
 
 import "./App.css";
-import React from "react";
+import APIcoins from "./api/APIcoins.jsx";
+import Header from "./components/Header.jsx";
 
 function App() {
   return (
     <div className="mainContainer">
-      <APIcoins />
+      <div>
+        <Header />
+      </div>
+      <div>
+        <APIcoins />
+      </div>
     </div>
   );
 }
