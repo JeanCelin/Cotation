@@ -12,6 +12,7 @@ export default function ApiCodes() {
     "Dólar Americano/Real Brasileiro"
   );
   const [codeSelectedCoin, setCodeSelectedCoin] = useState("USD-BRL");
+  const [showList, setShowList] = useState(false);
 
   useEffect(() => {
     const fetchCodes = async () => {
@@ -19,11 +20,10 @@ export default function ApiCodes() {
         const response = await axios.get(coinsNameURL);
         const data = response.data;
         const coins = Object.values(data);
-
         const listCoins = coins.map((item, index) => (
-          <option value={item} key={index}>
+          <li key={index} onClick={() => handleSelectedCoin(item)}>
             {item}
-          </option>
+          </li>
         ));
         setData(data);
         setCoinName(listCoins);
@@ -40,23 +40,32 @@ export default function ApiCodes() {
     }
   }, [selectedCoin]);
 
-  const handleSelectedCoin = (e) => {
-    setSelectedCoin(e.target.value);
+  const handleSelectedCoin = (coin) => {
+    setSelectedCoin(coin);
+    setShowList(false);
   };
 
   const findKeyByValue = (value) => {
     const key = Object.keys(data).find((key) => data[key] === value);
     setCodeSelectedCoin(key);
   };
+
   return (
     <>
       <div className="listCoins">
-        <select onChange={handleSelectedCoin} value={selectedCoin}>
-          <option disabled hidden value="">
-            Select a currency
-          </option>
-          {coinName}
-        </select>
+        <input
+          value={selectedCoin}
+          onClick={() => {
+            setShowList(!showList);
+          }}></input>
+        {showList && (
+          <ul>
+            <li disabled hidden>
+              Select a currency
+            </li>
+            {coinName}
+          </ul>
+        )}
       </div>
       <APImath code={codeSelectedCoin} />
     </>
