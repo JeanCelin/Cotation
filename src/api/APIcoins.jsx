@@ -7,7 +7,8 @@ import APImath from "./APImath.jsx";
 export default function ApiCodes() {
   const coinsNameURL = import.meta.env.VITE_API_COINS_NAME;
   const [data, setData] = useState({});
-  const [coinName, setCoinName] = useState([]);
+  const [coinNames, setCoinNames] = useState([]);
+  const [filteredCoins, setFilteredCoins] = useState([]);
   const [selectedCoin, setSelectedCoin] = useState(
     "Dólar Americano/Real Brasileiro"
   );
@@ -21,13 +22,9 @@ export default function ApiCodes() {
         const response = await axios.get(coinsNameURL);
         const data = response.data;
         const coins = Object.values(data);
-        const listCoins = coins.map((item, index) => (
-          <li key={index} onClick={() => handleSelectedCoin(item)}>
-            {item}
-          </li>
-        ));
         setData(data);
-        setCoinName(listCoins);
+        setCoinNames(coins);
+        setFilteredCoins(coins);
       } catch (error) {
         console.error("Error fetching the codes:", error);
       }
@@ -40,17 +37,25 @@ export default function ApiCodes() {
       findKeyByValue(selectedCoin);
     }
   }, [selectedCoin]);
+
   useEffect(() => {
     setUserCoinName(selectedCoin);
   }, [selectedCoin]);
 
   const handleSelectedCoin = (coin) => {
     setSelectedCoin(coin);
-    setUserCoinName(selectedCoin);
+    setUserCoinName(coin);
     setShowList(false);
   };
+
   const handleCoinName = (e) => {
-    setUserCoinName(e.target.value);
+    const value = e.target.value;
+    setUserCoinName(value);
+    setFilteredCoins(
+      coinNames.filter((item) =>
+        item.toLowerCase().includes(value.toLowerCase())
+      )
+    );
   };
 
   const findKeyByValue = (value) => {
@@ -67,14 +72,19 @@ export default function ApiCodes() {
           onChange={handleCoinName}
           onClick={() => {
             setShowList(!showList);
-          }}></input>
+          }}
+        />
         {showList && (
           <div className="listContainer">
             <ul className="list">
               <li disabled hidden>
                 Select a currency
               </li>
-              {coinName}
+              {filteredCoins.map((item, index) => (
+                <li key={index} onClick={() => handleSelectedCoin(item)}>
+                  {item}
+                </li>
+              ))}
             </ul>
           </div>
         )}
