@@ -3,96 +3,95 @@ import axios from "axios";
 
 import "./APImath.css";
 
-export default function ApiPrice(props) {
+export default function APIConverter({ code }) {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  const [price, setPrice] = useState(0);
-  const [codein, setCodein] = useState("");
-  const [coin1, setCoin1] = useState("");
-  const [coin1Value, setCoin1Value] = useState(0);
-  const [coin2, setCoin2] = useState("");
-  const [coin2Value, setCoin2Value] = useState(1);
+  const [exchangeRate, setExchangeRate] = useState(0);
+  const [currencyCode, setCurrencyCode] = useState("");
+  const [currency1Name, setCurrency1Name] = useState("");
+  const [currency1Amount, setCurrency1Amount] = useState(0);
+  const [currency2Name, setCurrency2Name] = useState("");
+  const [currency2Amount, setCurrency2Amount] = useState(1);
 
-  const [updatingCoin1, setUpdatingCoin1] = useState(false);
-  const [updatingCoin2, setUpdatingCoin2] = useState(false);
-  const [completeURL, setCompleteURL] = useState("");
+  const [isUpdatingCurrency1, setIsUpdatingCurrency1] = useState(false);
+  const [isUpdatingCurrency2, setIsUpdatingCurrency2] = useState(false);
+  const [apiEndpoint, setApiEndpoint] = useState("");
 
   useEffect(() => {
-    const url = import.meta.env.VITE_API_KEY;
-    const code = props.code;
+    const apiKey = import.meta.env.VITE_API_KEY;
     if (code) {
-      const finalURL = `${url}${code}`;
-      setCompleteURL(finalURL);
+      const finalURL = `${apiKey}${code}`;
+      setApiEndpoint(finalURL);
     }
-  }, [props.code]);
+  }, [code]);
 
-  const calc1 = (coin1, price) => coin1 * price;
-  const calc2 = (coin2, price) => coin2 / price;
+  const calculateCurrency1 = (amount, rate) => amount * rate;
+  const calculateCurrency2 = (amount, rate) => amount / rate;
 
-  const handleCoin1 = (e) => {
-    setCoin1Value(e.target.value);
-    setUpdatingCoin1(true);
+  const handleCurrency1Change = (e) => {
+    setCurrency1Amount(e.target.value);
+    setIsUpdatingCurrency1(true);
   };
 
-  const handleCoin2 = (e) => {
-    setCoin2Value(e.target.value);
-    setUpdatingCoin2(true);
+  const handleCurrency2Change = (e) => {
+    setCurrency2Amount(e.target.value);
+    setIsUpdatingCurrency2(true);
   };
 
   useEffect(() => {
-    if (updatingCoin1 && !isNaN(coin1Value)) {
-      const result = calc1(coin1Value, price).toFixed(2);
-      setCoin2Value(result);
-      setUpdatingCoin1(false);
+    if (isUpdatingCurrency1 && !isNaN(currency1Amount)) {
+      const result = calculateCurrency1(currency1Amount, exchangeRate).toFixed(
+        2
+      );
+      setCurrency2Amount(result);
+      setIsUpdatingCurrency1(false);
     }
-  }, [coin1Value, price, updatingCoin1]);
+  }, [currency1Amount, exchangeRate, isUpdatingCurrency1]);
 
   useEffect(() => {
-    if (updatingCoin2 && !isNaN(coin2Value)) {
-      const result = calc2(coin2Value, price).toFixed(2);
-      setCoin1Value(result);
-      setUpdatingCoin2(false);
+    if (isUpdatingCurrency2 && !isNaN(currency2Amount)) {
+      const result = calculateCurrency2(currency2Amount, exchangeRate).toFixed(
+        2
+      );
+      setCurrency1Amount(result);
+      setIsUpdatingCurrency2(false);
     }
-  }, [coin2Value, price, updatingCoin2]);
+  }, [currency2Amount, exchangeRate, isUpdatingCurrency2]);
 
   useEffect(() => {
-    const fetchData = async () => {
+    const fetchExchangeRate = async () => {
       try {
-        if (!completeURL) {
+        if (!apiEndpoint) {
           return;
         }
 
-        const response = await axios.get(completeURL);
+        const response = await axios.get(apiEndpoint);
         if (!response.data) {
           throw new Error("Empty response data");
         }
 
-        const newCode = Object.keys(response.data)[0];
-        const data = response.data[newCode];
+        const exchangeDataKey = Object.keys(response.data)[0];
+        const exchangeData = response.data[exchangeDataKey];
 
-        if (!data || !data.name || typeof data.name !== "string") {
+        if (
+          !exchangeData ||
+          !exchangeData.name ||
+          typeof exchangeData.name !== "string"
+        ) {
           throw new Error(
             "Invalid data format: name property not found or not a string"
           );
         }
 
-        const coins = data.name.split("/");
-        if (coins.length !== 2) {
-          throw new Error(
-            "Invalid data format: name does not contain expected format"
-          );
-        }
+        const [currency1, currency2] = exchangeData.name.split("/");
+        const fetchedRate = Number(exchangeData.bid).toFixed(2);
 
-        const coins1 = coins[0];
-        const coins2 = coins[1];
-
-        const fetchedPrice = Number(data.bid).toFixed(2);
-        setPrice(fetchedPrice);
-        setCodein(data.codein);
-        setCoin1(coins1);
-        setCoin2(coins2);
-        setCoin1Value(fetchedPrice);
+        setExchangeRate(fetchedRate);
+        setCurrencyCode(exchangeData.codein);
+        setCurrency1Name(currency1);
+        setCurrency2Name(currency2);
+        setCurrency1Amount(fetchedRate);
       } catch (error) {
         setError(error);
       } finally {
@@ -100,8 +99,8 @@ export default function ApiPrice(props) {
       }
     };
 
-    fetchData();
-  }, [completeURL]);
+    fetchExchangeRate();
+  }, [apiEndpoint]);
 
   if (loading) {
     return <div>Loading...</div>;
@@ -113,24 +112,24 @@ export default function ApiPrice(props) {
 
   return (
     <div className="Mathcontainer">
-      <div className="price">Price: {`${price} ${codein}`}</div>
-      <div className="convertionContainer">
+      <div className="price">Price: {`${exchangeRate} ${currencyCode}`}</div>
+      <div className="conversionContainer">
         <div className="inputContainer">
-          <label htmlFor="coin1">{coin1}</label>
+          <label htmlFor="currency1">{currency1Name}</label>
           <input
-            name="coin1"
+            name="currency1"
             type="number"
-            onChange={handleCoin1}
-            value={coin1Value}
+            onChange={handleCurrency1Change}
+            value={currency1Amount}
           />
         </div>
         <div className="inputContainer">
-          <label htmlFor="coin2">{coin2}</label>
+          <label htmlFor="currency2">{currency2Name}</label>
           <input
-            name="coin2"
+            name="currency2"
             type="number"
-            onChange={handleCoin2}
-            value={coin2Value}
+            onChange={handleCurrency2Change}
+            value={currency2Amount}
           />
         </div>
       </div>

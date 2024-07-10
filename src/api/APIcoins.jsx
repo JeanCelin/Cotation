@@ -4,67 +4,70 @@ import axios from "axios";
 import "./APIcoins.css";
 import APImath from "./APImath.jsx";
 
-export default function ApiCodes() {
-  const coinsNameURL = import.meta.env.VITE_API_COINS_NAME;
-  const [data, setData] = useState({});
+export default function APICoins() {
+  const apiURL = import.meta.env.VITE_API_COINS_NAME;
+  const [coinsData, setCoinsData] = useState({});
   const [coinNames, setCoinNames] = useState([]);
-  const [filteredCoins, setFilteredCoins] = useState([]);
-  const [selectedCoin, setSelectedCoin] = useState(
+  const [filteredCoinNames, setFilteredCoinNames] = useState([]);
+  const [selectedCoinName, setSelectedCoinName] = useState(
     "Dólar Americano/Real Brasileiro"
   );
-  const [codeSelectedCoin, setCodeSelectedCoin] = useState("USD-BRL");
-  const [showList, setShowList] = useState(false);
-  const [userCoinName, setUserCoinName] = useState(selectedCoin);
+  const [selectedCoinCode, setSelectedCoinCode] = useState("USD-BRL");
+  const [isDropdownVisible, setIsDropdownVisible] = useState(false);
+  const [inputCoinName, setInputCoinName] = useState(selectedCoinName);
 
   useEffect(() => {
-    const fetchCodes = async () => {
+    const fetchCoinNames = async () => {
       try {
-        const response = await axios.get(coinsNameURL);
+        const response = await axios.get(apiURL);
         const data = response.data;
-        const coins = Object.values(data);
-        setData(data);
-        setCoinNames(coins);
-        setFilteredCoins(coins);
+        const coinNames = Object.values(data);
+        setCoinsData(data);
+        setCoinNames(coinNames);
+        setFilteredCoinNames(coinNames);
       } catch (error) {
         console.error("Error fetching the codes:", error);
       }
     };
-    fetchCodes();
-  }, [coinsNameURL]);
+    fetchCoinNames();
+  }, [apiURL]);
 
   useEffect(() => {
-    if (selectedCoin !== "") {
-      findKeyByValue(selectedCoin);
+    if (selectedCoinName !== "") {
+      updateSelectedCoinCode(selectedCoinName);
     }
-  }, [selectedCoin]);
+  }, [selectedCoinName]);
 
   useEffect(() => {
-    setUserCoinName(selectedCoin);
-  }, [selectedCoin]);
+    setInputCoinName(selectedCoinName);
+  }, [selectedCoinName]);
 
-  const handleSelectedCoin = (coin) => {
-    setSelectedCoin(coin);
-    setUserCoinName(coin);
-    setShowList(false);
+  const handleCoinSelection = (coinName) => {
+    setSelectedCoinName(coinName);
+    setInputCoinName(coinName);
+    setIsDropdownVisible(false);
   };
 
-  const handleCoinName = (e) => {
-    setShowList(true);
+  const handleCoinNameChange = (e) => {
+    setIsDropdownVisible(true);
     const value = e.target.value;
-    setUserCoinName(value);
-    setFilteredCoins(
-      coinNames.filter((item) =>
-        item.toLowerCase().includes(value.toLowerCase())
+    setInputCoinName(value);
+    setFilteredCoinNames(
+      coinNames.filter((coinName) =>
+        coinName.toLowerCase().includes(value.toLowerCase())
       )
     );
   };
-  const handleCleanButton = () => {
-    setUserCoinName("");
+
+  const handleClearInput = () => {
+    setInputCoinName("");
   };
 
-  const findKeyByValue = (value) => {
-    const key = Object.keys(data).find((key) => data[key] === value);
-    setCodeSelectedCoin(key);
+  const updateSelectedCoinCode = (coinName) => {
+    const coinCode = Object.keys(coinsData).find(
+      (key) => coinsData[key] === coinName
+    );
+    setSelectedCoinCode(coinCode);
   };
 
   return (
@@ -73,32 +76,34 @@ export default function ApiCodes() {
         <div className="names">
           <input
             className="coinName"
-            value={userCoinName}
-            onChange={handleCoinName}
+            value={inputCoinName}
+            onChange={handleCoinNameChange}
             onClick={() => {
-              setShowList(!showList);
+              setIsDropdownVisible(!isDropdownVisible);
             }}
           />
-          <div className="clean" onClick={handleCleanButton}>
+          <div className="clean" onClick={handleClearInput}>
+            {" "}
             <ion-icon name="close-outline"></ion-icon>
           </div>
         </div>
-        {showList && (
+        {isDropdownVisible && (
           <div className="listContainer">
             <ul className="list">
               <li disabled hidden>
                 Select a currency
               </li>
-              {filteredCoins.map((item, index) => (
-                <li key={index} onClick={() => handleSelectedCoin(item)}>
-                  {item}
+              {filteredCoinNames.map((coinName, index) => (
+                <li key={index} onClick={() => handleCoinSelection(coinName)}>
+                  {" "}
+                  {coinName}
                 </li>
               ))}
             </ul>
           </div>
         )}
       </div>
-      <APImath code={codeSelectedCoin} />
+      <APImath code={selectedCoinCode} />
     </>
   );
 }
