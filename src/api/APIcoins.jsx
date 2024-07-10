@@ -49,18 +49,23 @@ export default function APICoins() {
   };
 
   const handleCoinNameChange = (e) => {
-    setIsDropdownVisible(true);
     const value = e.target.value;
     setInputCoinName(value);
-    setFilteredCoinNames(
-      coinNames.filter((coinName) =>
-        coinName.toLowerCase().includes(value.toLowerCase())
-      )
-    );
+    if (value === "") {
+      setFilteredCoinNames(coinNames);
+    } else {
+      setFilteredCoinNames(
+        coinNames.filter((coinName) =>
+          coinName.toLowerCase().includes(value.toLowerCase())
+        )
+      );
+    }
+    setIsDropdownVisible(true);
   };
 
   const handleClearInput = () => {
     setInputCoinName("");
+    setFilteredCoinNames(coinNames);
   };
 
   const updateSelectedCoinCode = (coinName) => {
@@ -83,7 +88,6 @@ export default function APICoins() {
             }}
           />
           <div className="clean" onClick={handleClearInput}>
-            {" "}
             <ion-icon name="close-outline"></ion-icon>
           </div>
         </div>
@@ -95,7 +99,6 @@ export default function APICoins() {
               </li>
               {filteredCoinNames.map((coinName, index) => (
                 <li key={index} onClick={() => handleCoinSelection(coinName)}>
-                  {" "}
                   {coinName}
                 </li>
               ))}
