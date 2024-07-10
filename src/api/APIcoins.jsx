@@ -49,6 +49,7 @@ export default function ApiCodes() {
   };
 
   const handleCoinName = (e) => {
+    setShowList(true);
     const value = e.target.value;
     setUserCoinName(value);
     setFilteredCoins(
@@ -56,6 +57,9 @@ export default function ApiCodes() {
         item.toLowerCase().includes(value.toLowerCase())
       )
     );
+  };
+  const handleCleanButton = () => {
+    setUserCoinName("");
   };
 
   const findKeyByValue = (value) => {
@@ -66,14 +70,19 @@ export default function ApiCodes() {
   return (
     <>
       <div className="containerNames">
-        <input
-          className="coinName"
-          value={userCoinName}
-          onChange={handleCoinName}
-          onClick={() => {
-            setShowList(!showList);
-          }}
-        />
+        <div className="names">
+          <input
+            className="coinName"
+            value={userCoinName}
+            onChange={handleCoinName}
+            onClick={() => {
+              setShowList(!showList);
+            }}
+          />
+          <div className="clean" onClick={handleCleanButton}>
+            <ion-icon name="close-outline"></ion-icon>
+          </div>
+        </div>
         {showList && (
           <div className="listContainer">
             <ul className="list">
