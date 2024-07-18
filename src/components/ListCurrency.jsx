@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import APIcoins from "../api/APIcoins";
-import APImath from "../api/APImath";
+import APIConverter from "../api/APIConverter";
 
 export default function ListCurrency() {
   const [coinsData, setCoinsData] = useState({});
@@ -29,7 +29,6 @@ export default function ListCurrency() {
   }, [selectedCoinName]);
 
   const handleCoinsData = (data) => {
-    console.log(data);
     setCoinsData(data);
   };
 
@@ -60,15 +59,11 @@ export default function ListCurrency() {
   };
 
   const updateSelectedCoinCode = (coinName) => {
-    console.log(coinsData);
     if (coinsData) {
-      console.log(coinsData);
       const coinCode = Object.keys(coinsData).find(
         (key) => coinsData[key] === coinName
       );
       setSelectedCoinCode(coinCode);
-    } else {
-      console.log("Não foi possivel encontrar o Código da moeda");
     }
   };
 
@@ -103,7 +98,7 @@ export default function ListCurrency() {
           </div>
         )}
       </div>
-      <APImath selectedCoinCode={selectedCoinCode} />
+      <APIConverter selectedCoinCode={selectedCoinCode} />
     </>
   );
 }

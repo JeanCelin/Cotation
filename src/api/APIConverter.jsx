@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-
+import CurrencyConverter from "../components/CurrencyConverter";
 import "./APImath.css";
 
 export default function APIConverter(props) {
@@ -13,9 +13,6 @@ export default function APIConverter(props) {
   const [currency1Amount, setCurrency1Amount] = useState(0);
   const [currency2Name, setCurrency2Name] = useState("");
   const [currency2Amount, setCurrency2Amount] = useState(1);
-
-  const [isUpdatingCurrency1, setIsUpdatingCurrency1] = useState(false);
-  const [isUpdatingCurrency2, setIsUpdatingCurrency2] = useState(false);
   const [apiEndpoint, setApiEndpoint] = useState("");
 
   useEffect(() => {
@@ -26,39 +23,6 @@ export default function APIConverter(props) {
       setApiEndpoint(finalURL);
     }
   }, [props.selectedCoinCode]);
-
-  const calculateCurrency1 = (amount, rate) => amount * rate;
-  const calculateCurrency2 = (amount, rate) => amount / rate;
-
-  const handleCurrency1Change = (e) => {
-    setCurrency1Amount(e.target.value);
-    setIsUpdatingCurrency1(true);
-  };
-
-  const handleCurrency2Change = (e) => {
-    setCurrency2Amount(e.target.value);
-    setIsUpdatingCurrency2(true);
-  };
-
-  useEffect(() => {
-    if (isUpdatingCurrency1 && !isNaN(currency1Amount)) {
-      const result = calculateCurrency1(currency1Amount, exchangeRate).toFixed(
-        2
-      );
-      setCurrency2Amount(result);
-      setIsUpdatingCurrency1(false);
-    }
-  }, [currency1Amount, exchangeRate, isUpdatingCurrency1]);
-
-  useEffect(() => {
-    if (isUpdatingCurrency2 && !isNaN(currency2Amount)) {
-      const result = calculateCurrency2(currency2Amount, exchangeRate).toFixed(
-        2
-      );
-      setCurrency1Amount(result);
-      setIsUpdatingCurrency2(false);
-    }
-  }, [currency2Amount, exchangeRate, isUpdatingCurrency2]);
 
   useEffect(() => {
     const fetchExchangeRate = async () => {
@@ -112,28 +76,15 @@ export default function APIConverter(props) {
   }
 
   return (
-    <div className="Mathcontainer">
-      <div className="price">Price: {`${exchangeRate} ${currencyCode}`}</div>
-      <div className="conversionContainer">
-        <div className="inputContainer">
-          <label htmlFor="currency1">{currency1Name}</label>
-          <input
-            name="currency1"
-            type="number"
-            onChange={handleCurrency1Change}
-            value={currency1Amount}
-          />
-        </div>
-        <div className="inputContainer">
-          <label htmlFor="currency2">{currency2Name}</label>
-          <input
-            name="currency2"
-            type="number"
-            onChange={handleCurrency2Change}
-            value={currency2Amount}
-          />
-        </div>
-      </div>
-    </div>
+    <CurrencyConverter
+      exchangeRate={exchangeRate}
+      currencyCode={currencyCode}
+      currency1Name={currency1Name}
+      currency1Amount={currency1Amount}
+      currency2Name={currency2Name}
+      currency2Amount={currency2Amount}
+      setCurrency1Amount={setCurrency1Amount}
+      setCurrency2Amount={setCurrency2Amount}
+    />
   );
 }
