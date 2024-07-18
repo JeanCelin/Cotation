@@ -1,22 +1,17 @@
 import React from "react";
-
 import "./App.css";
-import APIcoins from "../services/api/APICoins.jsx";
 import Header from "../components/Header.jsx";
 import ConversionArea from "../components/ConversionArea.jsx";
 
 function App() {
   return (
-    <div className="mainContainer">
-      <div>
+    <div className="main-container">
+      <header className="main-header">
         <Header />
-      </div>
-      <div>
+      </header>
+      <section className="main-section">
         <ConversionArea />
-      </div>
-      <div>
-        <APIcoins />
-      </div>
+      </section>
     </div>
   );
 }

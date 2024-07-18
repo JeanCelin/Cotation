@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
-import APIcoins from "../services/api/APICoins";
+import APICoins from "../services/api/APICoins";
 import APIConverter from "../services/api/APIConverter";
+import "./ListCurrency.css";
 
 export default function ListCurrency() {
   const [coinsData, setCoinsData] = useState({});
@@ -69,23 +70,23 @@ export default function ListCurrency() {
 
   return (
     <>
-      <APIcoins handleCoinsData={handleCoinsData} />
+      <APICoins handleCoinsData={handleCoinsData} />
 
-      <div className="containerNames">
-        <div className="names">
+      <div>
+        <div className="currency_list_container">
           <input
-            className="coinName"
+            className="list_input"
             value={inputCoinName}
             onChange={handleCoinNameChange}
             onClick={() => setIsDropdownVisible(!isDropdownVisible)}
           />
-          <div className="clean" onClick={handleClearInput}>
+          <div className="list_button--clean" onClick={handleClearInput}>
             <ion-icon name="close-outline"></ion-icon>
           </div>
         </div>
         {isDropdownVisible && (
-          <div className="listContainer">
-            <ul className="list">
+          <div className="listNames_container">
+            <ul className="listNames">
               <li disabled hidden>
                 Select a currency
               </li>

@@ -1,0 +1,32 @@
+.currency_list_container {
+  display: flex;
+  padding-bottom: 15px;
+}
+.list_input {
+  text-align: center;
+  width: 100%;
+}
+.list_button--clean {
+  display: flex;
+  font-size: 20px;
+  cursor: pointer;
+}
+.list_button--clean:hover {
+  color: white;
+}
+.listNames {
+  margin: 0;
+  padding: 0;
+
+  list-style: none;
+  cursor: pointer;
+  background-color: rgba(24, 24, 24, 0.5);
+}
+.listNames li {
+  width: 100%;
+  text-align: center;
+}
+.listNames li:hover {
+  font-weight: 400;
+  background-color: rgb(24, 24, 24);
+}

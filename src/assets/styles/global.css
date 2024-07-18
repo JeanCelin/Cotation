@@ -1,0 +1,18 @@
+:root {
+  --background-primary-color: #242424;
+  --text-font-size: 16px;
+  --text-color: rgba(255, 255, 255, 0.87);
+
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+
+  font-family: "Roboto", sans-serif;
+  line-height: 1.5;
+  font-weight: 300;
+  font-size: var(--text-font-size);
+
+  color-scheme: light dark;
+  color: var(--text-color);
+  background-color: var(--background-primary-color);
+}

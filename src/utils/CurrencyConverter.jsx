@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import "./CurrencyConverter.css";
 
 export default function CurrencyConverter(props) {
   const [isUpdatingCurrency1, setIsUpdatingCurrency1] = useState(false);
@@ -40,23 +41,25 @@ export default function CurrencyConverter(props) {
   }, [props.currency2Amount, props.exchangeRate, isUpdatingCurrency2]);
 
   return (
-    <div className="Mathcontainer">
+    <div className="dateArea_container">
       <div className="price">
         Price: {`${props.exchangeRate} ${props.currencyCode}`}
       </div>
-      <div className="conversionContainer">
-        <div className="inputContainer">
+      <div className="conversion_container">
+        <div className="conversion">
           <label htmlFor="currency1">{props.currency1Name}</label>
           <input
+            className="conversion_input"
             name="currency1"
             type="number"
             onChange={handleCurrency1Change}
             value={props.currency1Amount}
           />
         </div>
-        <div className="inputContainer">
+        <div className="conversion">
           <label htmlFor="currency2">{props.currency2Name}</label>
           <input
+            className="conversion_input"
             name="currency2"
             type="number"
             onChange={handleCurrency2Change}
