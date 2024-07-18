@@ -1,9 +1,9 @@
 import React from "react";
 
 import "./App.css";
-import APIcoins from "./api/APIcoins.jsx";
-import Header from "./components/Header.jsx";
-import InputArea from "./components/InputArea.jsx";
+import APIcoins from "../services/api/APICoins.jsx";
+import Header from "../components/Header.jsx";
+import ConversionArea from "../components/ConversionArea.jsx";
 
 function App() {
   return (
@@ -12,7 +12,7 @@ function App() {
         <Header />
       </div>
       <div>
-        <InputArea />
+        <ConversionArea />
       </div>
       <div>
         <APIcoins />

@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import CurrencyConverter from "../components/CurrencyConverter";
-import "./APImath.css";
+import CurrencyConverter from "../../utils/CurrencyConverter";
 
 export default function APIConverter(props) {
   const [loading, setLoading] = useState(true);

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-import APIcoins from "../api/APIcoins";
-import APIConverter from "../api/APIConverter";
+import APIcoins from "../services/api/APICoins";
+import APIConverter from "../services/api/APIConverter";
 
 export default function ListCurrency() {
   const [coinsData, setCoinsData] = useState({});

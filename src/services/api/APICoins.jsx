@@ -1,8 +1,6 @@
 import { useEffect } from "react";
 import axios from "axios";
 
-import "./APIcoins.css";
-
 export default function APICoins(props) {
   const apiURL = import.meta.env.VITE_API_COINS_NAME;
 
