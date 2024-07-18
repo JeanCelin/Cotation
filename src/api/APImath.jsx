@@ -3,7 +3,7 @@ import axios from "axios";
 
 import "./APImath.css";
 
-export default function APIConverter({ code }) {
+export default function APIConverter(props) {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
@@ -20,11 +20,12 @@ export default function APIConverter({ code }) {
 
   useEffect(() => {
     const apiKey = import.meta.env.VITE_API_KEY;
-    if (code) {
-      const finalURL = `${apiKey}${code}`;
+
+    if (props.selectedCoinCode) {
+      const finalURL = `${apiKey}${props.selectedCoinCode}`;
       setApiEndpoint(finalURL);
     }
-  }, [code]);
+  }, [props.selectedCoinCode]);
 
   const calculateCurrency1 = (amount, rate) => amount * rate;
   const calculateCurrency2 = (amount, rate) => amount / rate;

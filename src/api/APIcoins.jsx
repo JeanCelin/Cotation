@@ -1,30 +1,20 @@
-import React, { useEffect, useState } from "react";
+import { useEffect } from "react";
 import axios from "axios";
 
 import "./APIcoins.css";
-import APImath from "./APImath.jsx";
 
-export default function APICoins() {
+export default function APICoins(props) {
   const apiURL = import.meta.env.VITE_API_COINS_NAME;
-  const [coinsData, setCoinsData] = useState({});
-  const [coinNames, setCoinNames] = useState([]);
-  const [filteredCoinNames, setFilteredCoinNames] = useState([]);
-  const [selectedCoinName, setSelectedCoinName] = useState(
-    "Dólar Americano/Real Brasileiro"
-  );
-  const [selectedCoinCode, setSelectedCoinCode] = useState("USD-BRL");
-  const [isDropdownVisible, setIsDropdownVisible] = useState(false);
-  const [inputCoinName, setInputCoinName] = useState(selectedCoinName);
 
   useEffect(() => {
     const fetchCoinNames = async () => {
       try {
         const response = await axios.get(apiURL);
         const data = response.data;
-        const coinNames = Object.values(data);
-        setCoinsData(data);
-        setCoinNames(coinNames);
-        setFilteredCoinNames(coinNames);
+
+        if (typeof props.handleCoinsData === "function") {
+          props.handleCoinsData(data);
+        }
       } catch (error) {
         console.error("Error fetching the codes:", error);
       }
@@ -32,81 +22,5 @@ export default function APICoins() {
     fetchCoinNames();
   }, [apiURL]);
 
-  useEffect(() => {
-    if (selectedCoinName !== "") {
-      updateSelectedCoinCode(selectedCoinName);
-    }
-  }, [selectedCoinName]);
-
-  useEffect(() => {
-    setInputCoinName(selectedCoinName);
-  }, [selectedCoinName]);
-
-  const handleCoinSelection = (coinName) => {
-    setSelectedCoinName(coinName);
-    setInputCoinName(coinName);
-    setIsDropdownVisible(false);
-  };
-
-  const handleCoinNameChange = (e) => {
-    const value = e.target.value;
-    setInputCoinName(value);
-    if (value === "") {
-      setFilteredCoinNames(coinNames);
-    } else {
-      setFilteredCoinNames(
-        coinNames.filter((coinName) =>
-          coinName.toLowerCase().includes(value.toLowerCase())
-        )
-      );
-    }
-    setIsDropdownVisible(true);
-  };
-
-  const handleClearInput = () => {
-    setInputCoinName("");
-    setFilteredCoinNames(coinNames);
-  };
-
-  const updateSelectedCoinCode = (coinName) => {
-    const coinCode = Object.keys(coinsData).find(
-      (key) => coinsData[key] === coinName
-    );
-    setSelectedCoinCode(coinCode);
-  };
-
-  return (
-    <>
-      <div className="containerNames">
-        <div className="names">
-          <input
-            className="coinName"
-            value={inputCoinName}
-            onChange={handleCoinNameChange}
-            onClick={() => {
-              setIsDropdownVisible(!isDropdownVisible);
-            }}
-          />
-          <div className="clean" onClick={handleClearInput}>
-            <ion-icon name="close-outline"></ion-icon>
-          </div>
-        </div>
-        {isDropdownVisible && (
-          <div className="listContainer">
-            <ul className="list">
-              <li disabled hidden>
-                Select a currency
-              </li>
-              {filteredCoinNames.map((coinName, index) => (
-                <li key={index} onClick={() => handleCoinSelection(coinName)}>
-                  {coinName}
-                </li>
-              ))}
-            </ul>
-          </div>
-        )}
-      </div>
-      <APImath code={selectedCoinCode} />
-    </>
-  );
+  return null;
 }
