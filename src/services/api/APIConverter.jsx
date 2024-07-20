@@ -56,6 +56,7 @@ export default function APIConverter(props) {
         setCurrency1Name(currency1);
         setCurrency2Name(currency2);
         setCurrency1Amount(fetchedRate);
+        setCurrency2Amount(1);
       } catch (error) {
         setError(error);
       } finally {
