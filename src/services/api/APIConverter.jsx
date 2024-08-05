@@ -6,6 +6,7 @@ export default function APIConverter(props) {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
+  const [timeStamp, setTimeStamp] = useState("");
   const [exchangeRate, setExchangeRate] = useState(0);
   const [currencyCode, setCurrencyCode] = useState("");
   const [currency1Name, setCurrency1Name] = useState("");
@@ -38,6 +39,18 @@ export default function APIConverter(props) {
         const exchangeDataKey = Object.keys(response.data)[0];
         const exchangeData = response.data[exchangeDataKey];
 
+        const infoDate = () => {
+          const date = new Date(exchangeData.timestamp * 1000);
+          const year = date.getUTCFullYear();
+          const month = (date.getUTCMonth() + 1).toString().padStart(2, "0");
+          const day = date.getUTCDate().toString().padStart(2, "0");
+          const hours = date.getUTCHours().toString().padStart(2, "0");
+          const minutes = date.getUTCMinutes().toString().padStart(2, "0");
+          const seconds = date.getUTCSeconds().toString().padStart(2, "0");
+
+          return `${day}/${month}/${year} ${hours}:${minutes}:${seconds} GMT`;
+        };
+
         if (
           !exchangeData ||
           !exchangeData.name ||
@@ -50,7 +63,7 @@ export default function APIConverter(props) {
 
         const [currency1, currency2] = exchangeData.name.split("/");
         const fetchedRate = Number(exchangeData.bid).toFixed(2);
-
+        setTimeStamp(infoDate());
         setExchangeRate(fetchedRate);
         setCurrencyCode(exchangeData.codein);
         setCurrency1Name(currency1);
@@ -78,6 +91,7 @@ export default function APIConverter(props) {
   return (
     <CurrencyConverter
       exchangeRate={exchangeRate}
+      timeStamp={timeStamp}
       currencyCode={currencyCode}
       currency1Name={currency1Name}
       currency1Amount={currency1Amount}

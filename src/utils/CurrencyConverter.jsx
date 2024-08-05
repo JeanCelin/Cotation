@@ -43,7 +43,10 @@ export default function CurrencyConverter(props) {
   return (
     <div className="dateArea_container">
       <div className="price">
-        Price: {`${props.exchangeRate} ${props.currencyCode}`}
+        <p className="price-text">
+          Price: {`${props.exchangeRate} ${props.currencyCode}`}
+        </p>
+        <p className="price-lastUpdade">Last Update: {props.timeStamp}</p>
       </div>
       <div className="conversion_container">
         <div className="conversion">
