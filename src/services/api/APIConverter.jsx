@@ -35,20 +35,24 @@ export default function APIConverter({ selectedCoinCode }) {
         if (!response.data) {
           throw new Error("Empty response data");
         }
-
         const exchangeDataKey = Object.keys(response.data)[0];
         const exchangeData = response.data[exchangeDataKey];
 
         const infoDate = () => {
           const date = new Date(exchangeData.timestamp * 1000);
-          const year = date.getUTCFullYear();
-          const month = (date.getUTCMonth() + 1).toString().padStart(2, "0");
-          const day = date.getUTCDate().toString().padStart(2, "0");
-          const hours = date.getUTCHours().toString().padStart(2, "0");
-          const minutes = date.getUTCMinutes().toString().padStart(2, "0");
-          const seconds = date.getUTCSeconds().toString().padStart(2, "0");
 
-          return `${day}/${month}/${year} ${hours}:${minutes}:${seconds} GMT`;
+          // If you want the time format in GMT instead of local time, just remove the comments below and replace the return.
+
+          // const year = date.getUTCFullYear();
+          // const month = (date.getUTCMonth() + 1).toString().padStart(2, "0");
+          // const day = date.getUTCDate().toString().padStart(2, "0");
+          // const hours = date.getUTCHours().toString().padStart(2, "0");
+          // const minutes = date.getUTCMinutes().toString().padStart(2, "0");
+          // const seconds = date.getUTCSeconds().toString().padStart(2, "0");
+
+          // return `${day}/${month}/${year} ${hours}:${minutes}:${seconds} GMT`;
+
+          return `${date}`;
         };
 
         if (
