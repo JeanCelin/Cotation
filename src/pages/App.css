@@ -9,6 +9,7 @@
 }
 .main-warning {
   max-width: 700px;
+  text-align: center;
   font-size: 12px;
   color: red;
 }

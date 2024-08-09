@@ -1,7 +1,17 @@
 import React, { useEffect, useState } from "react";
 import "./CurrencyConverter.css";
 
-export default function CurrencyConverter(props) {
+export default function CurrencyConverter({
+  exchangeRate,
+  timeStamp,
+  currencyCode,
+  currency1Name,
+  currency1Amount,
+  currency2Name,
+  currency2Amount,
+  setCurrency1Amount,
+  setCurrency2Amount,
+}) {
   const [isUpdatingCurrency1, setIsUpdatingCurrency1] = useState(false);
   const [isUpdatingCurrency2, setIsUpdatingCurrency2] = useState(false);
 
@@ -9,64 +19,60 @@ export default function CurrencyConverter(props) {
   const calculateCurrency2 = (amount, rate) => amount / rate;
 
   const handleCurrency1Change = (e) => {
-    props.setCurrency1Amount(e.target.value);
+    setCurrency1Amount(e.target.value);
     setIsUpdatingCurrency1(true);
   };
 
   const handleCurrency2Change = (e) => {
-    props.setCurrency2Amount(e.target.value);
+    setCurrency2Amount(e.target.value);
     setIsUpdatingCurrency2(true);
   };
 
   useEffect(() => {
-    if (isUpdatingCurrency1 && !isNaN(props.currency1Amount)) {
-      const result = calculateCurrency1(
-        props.currency1Amount,
-        props.exchangeRate
-      ).toFixed(2);
-      props.setCurrency2Amount(result);
+    if (isUpdatingCurrency1 && !isNaN(currency1Amount)) {
+      const result = calculateCurrency1(currency1Amount, exchangeRate).toFixed(
+        2
+      );
+      setCurrency2Amount(result);
       setIsUpdatingCurrency1(false);
     }
-  }, [props.currency1Amount, props.exchangeRate, isUpdatingCurrency1]);
+  }, [currency1Amount, exchangeRate, isUpdatingCurrency1]);
 
   useEffect(() => {
-    if (isUpdatingCurrency2 && !isNaN(props.currency2Amount)) {
-      const result = calculateCurrency2(
-        props.currency2Amount,
-        props.exchangeRate
-      ).toFixed(2);
-      props.setCurrency1Amount(result);
+    if (isUpdatingCurrency2 && !isNaN(currency2Amount)) {
+      const result = calculateCurrency2(currency2Amount, exchangeRate).toFixed(
+        2
+      );
+      setCurrency1Amount(result);
       setIsUpdatingCurrency2(false);
     }
-  }, [props.currency2Amount, props.exchangeRate, isUpdatingCurrency2]);
+  }, [currency2Amount, exchangeRate, isUpdatingCurrency2]);
 
   return (
     <div className="dateArea_container">
       <div className="price">
-        <p className="price-text">
-          Price: {`${props.exchangeRate} ${props.currencyCode}`}
-        </p>
-        <p className="price-lastUpdade">Last Update: {props.timeStamp}</p>
+        <p className="price-text">Price: {`${exchangeRate} ${currencyCode}`}</p>
+        <p className="price-lastUpdade">Last Update: {timeStamp}</p>
       </div>
       <div className="conversion_container">
         <div className="conversion">
-          <label htmlFor="currency1">{props.currency1Name}</label>
+          <label htmlFor="currency1">{currency1Name}</label>
           <input
             className="conversion_input"
             name="currency1"
             type="number"
             onChange={handleCurrency1Change}
-            value={props.currency1Amount}
+            value={currency1Amount}
           />
         </div>
         <div className="conversion">
-          <label htmlFor="currency2">{props.currency2Name}</label>
+          <label htmlFor="currency2">{currency2Name}</label>
           <input
             className="conversion_input"
             name="currency2"
             type="number"
             onChange={handleCurrency2Change}
-            value={props.currency2Amount}
+            value={currency2Amount}
           />
         </div>
       </div>

@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import axios from "axios";
 
-export default function APICoins(props) {
+export default function APICoins({ handleCoinsData }) {
   const apiURL = import.meta.env.VITE_API_COINS_NAME;
 
   useEffect(() => {
@@ -10,8 +10,8 @@ export default function APICoins(props) {
         const response = await axios.get(apiURL);
         const data = response.data;
 
-        if (typeof props.handleCoinsData === "function") {
-          props.handleCoinsData(data);
+        if (typeof handleCoinsData === "function") {
+          handleCoinsData(data);
         }
       } catch (error) {
         console.error("Error fetching the codes:", error);

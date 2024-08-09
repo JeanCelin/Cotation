@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import CurrencyConverter from "../../utils/CurrencyConverter";
 
-export default function APIConverter(props) {
+export default function APIConverter({ selectedCoinCode }) {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
@@ -18,11 +18,11 @@ export default function APIConverter(props) {
   useEffect(() => {
     const apiKey = import.meta.env.VITE_API_KEY;
 
-    if (props.selectedCoinCode) {
-      const finalURL = `${apiKey}${props.selectedCoinCode}`;
+    if (selectedCoinCode) {
+      const finalURL = `${apiKey}${selectedCoinCode}`;
       setApiEndpoint(finalURL);
     }
-  }, [props.selectedCoinCode]);
+  }, [selectedCoinCode]);
 
   useEffect(() => {
     const fetchExchangeRate = async () => {
